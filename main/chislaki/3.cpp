@@ -1,4 +1,4 @@
-п»ї#include <iostream>
+#include <iostream>
 #include <cmath>
 #include <iomanip>
 
@@ -7,25 +7,25 @@ using namespace std;
 
 double e = 0.001;
 
-// С„СѓРЅ РґРёСЃС‚Р°РЅС†РёРё
+// фун дистанции
 double dis(double a, double b) {
 	double c = abs(a - b);
 	return c;
 }
 
 
-// С„СѓРЅ С€Р°РіР° 
+// фун шага 
 double H(double a, double b, int n) {
 	double h = (abs(b - a)) / (double)n;
 	return h;
 }
 
 
-// РїСЂРѕСЃС‚Рѕ С„СѓРЅРєС†РёСЏ 
+// просто функция 
 double f(double x) { return pow(x, 2); }
 
 
-// Р»РµРІС‹Р№ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
+// левый прямоугольник
 double lP(double a, double b, double n) {
 	double h = H(a, b, n);
 	double s = 0;
@@ -35,20 +35,20 @@ double lP(double a, double b, double n) {
 }
 
 
-// РјРµС‚РѕРґ СЃРёРјРїРѕСЃРѕРЅР° 
+// метод симпосона 
 double simpson(double a, double b, double n) {
 	double h = H(a, b, n);
 	double s = 0;
 	double x = a + h;
 	double res;
-	// РїРѕ РЅРµС‡РµС‚РЅС‹Рј
+	// по нечетным
 	for (int i = 1; i < n / 2 + 1; i++) {
 		s += 4 * f(x);
 		x += 2 * h;
 	}
 	x = a + 2 * h;
-	// РїРѕ С‡РµС‚РЅС‹Рј
-	for (int i = 1; i < n / 2 ; i++) {
+	// по четным
+	for (int i = 1; i < n / 2; i++) {
 		s += 2 * f(x);
 		x += 2 * h;
 		res = (h / 3) * (f(a) + f(b) + s);
@@ -57,8 +57,8 @@ double simpson(double a, double b, double n) {
 }
 
 
-// РћС‡РµРЅРєР° РїРѕРіСЂРµС€РЅРѕСЃС‚Рё РїРѕ РїСЂР°РІРёР»Сѓ СЂСѓРЅРіРµ РёСЃРї С‡-С‹Р№ Рј. СЃРёРјРїРѕСЃРѕРЅР°
-double sR (double a, double b, double n) {
+// Оченка погрешности по правилу рунге исп ч-ый м. симпосона
+double sR(double a, double b, double n) {
 	double h = H(a, b, n);
 	double sn = 100;
 	double s2n = 0;
@@ -74,7 +74,7 @@ double sR (double a, double b, double n) {
 }
 
 
-// РћС†РµРЅРєР° РїРѕРіСЂРµС€РЅРѕСЃС‚Рё РїРѕ Р»РµРІС‹Рј РїСЂСЏРјРѕСѓРіРѕР» РёСЃРї С‡-С‹Р№ Рј. СЃРёРјРїРѕСЃРѕРЅР°
+// Оценка погрешности по левым прямоугол исп ч-ый м. симпосона
 double lR(double a, double b, double n) {
 	double sn = 100;
 	double s2n = 0;
