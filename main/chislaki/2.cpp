@@ -9,13 +9,9 @@ double H(double a, double b, const int n) {
 	return h;
 }
 
-double f(double x) {
-	return x * x;
-}
+double f(double x) {return x * x;}
 
-double fDiff(double x) {
-	return 2 * x;
-}
+double fDiff(double x) {return 2 * x;}
 
 double D(double x, double a, double b, double h) {
 	if (x == a)
@@ -43,3 +39,4 @@ int main() {
 		cout << i << setw(15) << fDiff(i) << setw(15) << D(i, a, b, h) << setw(19) << dis(fDiff(i), D(i, a, b, h)) << "\n";
 	return 0;
 }
+

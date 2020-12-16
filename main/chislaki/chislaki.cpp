@@ -1,25 +1,41 @@
 ﻿#include <iostream>
-using namespace std;
-int main(){
-    int n = 6;
-    int **y = new int*[n];
-    for (int i = 0; i < n; i++)
-        y[i] = new int[n];
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            y[i][j] = 0;
-    
-    for (int i = 0; i < 2; i++, cout << "\n")
-        for (int j = 0; j < n; j++)
-            cout << "0 ";
+#include <cmath>
+#include <iomanip>
 
-    for (int i = 2; i < n; i++, cout << "0\n") {
-        cout << "0 ";
-        for (int j = 1; j < n - 1; j++) {
-            if (i > j)
-                y[i][j] = j * j * 5;
-            cout << y[i][j] << " ";
-        }
-    }
-    return 0;
+using namespace std;
+
+double H(double a, double b, const int n) {
+	double h = (abs(b - a)) / (double)n;
+	return h;
+}
+
+double f(double x) { return sin(x); }
+
+double fDiff(double x) { return cos(x); }
+
+double D(double x, double a, double b, double h) {
+	if (x == a)
+		return (f(x + h) - f(x)) / h;
+	else if (x == b)
+		return (f(x) - f(x - h)) / h;
+	else
+		return (f(x + h) - f(x - h)) / (2 * h);
+}
+
+double dis(double a, double b) {
+	double c = abs(a - b);
+	return c;
+}
+
+int main() {
+	double a = -1;
+	double b = 1;
+	double n = 10;
+	double h = H(a, b, n);
+
+	cout << fixed << setprecision(4);
+	cout << "x\t\tfDiff(x)\tD\t\t|D - fDiff|\n";
+	for (double i = a; i <= b; i += h)
+		cout << i << setw(15) << fDiff(i) << setw(15) << D(i, a, b, h) << setw(19) << dis(fDiff(i), D(i, a, b, h)) << "\n";
+	return 0;
 }

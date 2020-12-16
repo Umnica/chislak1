@@ -7,11 +7,12 @@ double f(double x) {
     double term = -1*x, summ = term;
     for (int k = 1; abs(term) >= e; k++) {
         term *= -1 * x;
-        term /= (double)2 * k * k + (double)2 * k;
+        term /= (double)4 * k * k + (double)2 * k;
         summ += term;
     }
     return summ;
 }
+
 int main() {
     double n = 10;
     double a = 0, b = 10, h = (b-a)/n;
