@@ -1,102 +1,79 @@
 ﻿#include <iostream>
-#include <cmath>
-#include <iomanip>
+#define ll long long
 
 using namespace std;
 
+ll modulo(ll base, ll exponent, ll mod){
+    ll x = 1;
+    ll y = base;
+    while (exponent > 0){
+        if (exponent % 2 == 1)
+            x = (x * y) % mod;
+        y = (y * y) % mod;
+        exponent = exponent / 2;
+    }
+    return x % mod;
+}
 
-double e = 0.001;
-
-// фун дистанции
-double dis(double a, double b) {
-	double c = abs(a - b);
-	return c;
+int calculateJacobian(ll a,ll n){
+    int ans = 1;
+    if (a < 0){
+        a = -a;
+        if (n % 4 == 3)
+            ans=-ans; 
+    }
+    if (a == 1)
+        return ans;
+    while (a){
+        if (a < 0){
+            a = -a;
+            if (n % 4 == 3) 
+                ans = -ans;  
+        }
+        while (a % 2 == 0){
+            a = a / 2;
+            if (n % 8 == 3 || n % 8 == 5) 
+                ans = -ans;    
+        }
+        swap(a, n);
+        if (a % 4 == 3 && n % 4 == 3)
+            ans = -ans;
+        a = a % n;
+        if (a > n / 2)
+            a = a - n; 
+    }
+    if (n == 1)
+        return ans;
+    return 0;
 }
 
 
-// фун шага 
-double H(double a, double b, int n) {
-	double h = (abs(b - a)) / (double)n;
-	return h;
-}
-
-
-// просто функция 
-double f(double x) { return pow(x, 2); }
-
-
-// левый прямоугольник
-double lP(double a, double b, double n) {
-	double h = H(a, b, n);
-	double s = 0;
-	for (double i = 0; i < n; i++)
-		s += f(a + (i * h));
-	return h * s;
-}
-
-
-// метод симпосона 
-double simpson(double a, double b, double n) {
-	double h = H(a, b, n);
-	double s = 0;
-	double x = a + h;
-	double res;
-	// по нечетным
-	for (int i = 1; i < n / 2 + 1; i++) {
-		s += 4 * f(x);
-		x += 2 * h;
-	}
-	x = a + 2 * h;
-	// по четным
-	for (int i = 1; i < n / 2 ; i++) {
-		s += 2 * f(x);
-		x += 2 * h;
-		res = (h / 3) * (f(a) + f(b) + s);
-	}
-	return res;
-}
-
-
-// Оченка погрешности по правилу рунге исп ч-ый м. симпосона
-double sR (double a, double b, double n) {
-	double h = H(a, b, n);
-	double sn = 100;
-	double s2n = 0;
-	double n1;
-	while ((dis(sn, s2n) / 15) >= e) {
-		sn = simpson(a, b, n);
-		s2n = simpson(a, b, 2 * n);
-		n1 = n;
-		n *= 2;
-	}
-	cout << sn << " " << n1 << "\n";
-	return n1;
-}
-
-
-// Оценка погрешности по левым прямоугол исп ч-ый м. симпосона
-double lR(double a, double b, double n) {
-	double sn = 100;
-	double s2n = 0;
-	double n1;
-	while ((dis(sn, s2n) / 3) >= e) {
-		sn = lP(a, b, n);
-		s2n = lP(a, b, 2 * n);
-		n1 = n;
-		n *= 2;
-	}
-	cout << sn << " " << n1 << "\n";
-	return n1;
+bool Solovoy(ll p, int iteration){
+    if (p < 2) 
+        return false;
+    if (p != 2 && p % 2 == 0) 
+        return false;
+    for (int i = 0; i < iteration; i++){
+        ll a = rand() % (p - 1) + 1;
+        ll jacobian = (p + calculateJacobian(a, p)) % p;
+        ll mod = modulo(a, (p - 1) / 2, p);
+        if (!jacobian || mod != jacobian){ 
+            return false;
+        }
+    }
+    return true;
 }
 
 
 int main() {
-	double a = 1;
-	double b = 3;
-	double n = 10;
+    int iteration = 50;
+    ll num;
+    cout << "Enter integr to test primality: ";
+    cin >> num;
+    if (Solovoy(num, iteration))
+        cout << num << " is prime" << endl;
+    else
+        cout << num << " is not prime" << endl;
 
-	sR(a, b, n);
-	lR(a, b, n);
-
-	return 0;
+    return 0;
 }

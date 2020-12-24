@@ -1,5 +1,2 @@
 ﻿  chislaki.cpp
-C:\Users\KIRILL\Documents\GitHub\chislaki\main\chislaki\chislaki.cpp(33,21): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
-C:\Users\KIRILL\Documents\GitHub\chislaki\main\chislaki\chislaki.cpp(42,21): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
-C:\Users\KIRILL\Documents\GitHub\chislaki\main\chislaki\chislaki.cpp(63,21): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
   chislaki.vcxproj -> C:\Users\KIRILL\Documents\GitHub\chislaki\main\Debug\chislaki.exe
